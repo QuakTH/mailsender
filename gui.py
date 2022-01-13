@@ -40,7 +40,7 @@ class GUI():
         self.label1.pack()
 
         self.button1 = Button(self.main_window, text='파일 열기',
-                              font=font1, width=20, height=2)
+                              font=font1, width=20, height=2, command=self.open_filedialog)
         self.button1.pack()
 
     def open_filedialog(self):
@@ -48,3 +48,6 @@ class GUI():
         버튼을 눌렀을 때, filedialog를 띄우고
         file_path return
         '''
+        filename = filedialog.askopenfilename(
+            initialdir='/', title='파일을 선택하세요', filetypes=(('Excel', '*.xlsx'), ('CSV', '*.csv'), ('Text', '*.txt')))
+        print(filename)
