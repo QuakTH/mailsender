@@ -1,4 +1,4 @@
-from tkinter import Label, Tk, filedialog, Menu, Button
+from tkinter import Label, Tk, filedialog, Button, Frame
 from tkinter.font import Font
 
 
@@ -39,15 +39,20 @@ class GUI():
             self.main_window, text='메일 자동 처리 프로그램 입니다.', pady=8, font=font1)
         self.label1.pack()
 
-        self.button1 = Button(self.main_window, text='파일 열기',
-                              font=font1, width=20, height=2, command=self.open_filedialog)
-        self.button1.pack()
+        self.frame1 = Frame(self.main_window,height=3)
+        self.frame1.pack()
 
-    def open_filedialog(self):
+        self.button1 = Button(self.frame1, text='이메일 목록 파일',
+                              font=font1, width=20, height=2, command=lambda :self.open_filedialog([('Excel 파일', '*.xlsx')]))
+        self.button1.pack(side='left')
+        self.button2 = Button(self.frame1, text='보낼 email 내용',
+                              font=font1, width=15, height=2, command=lambda :self.open_filedialog([('텍트스 파일', '*.txt')]))
+        self.button2.pack(side='left')
+    def open_filedialog(self, file_types):
         '''
         버튼을 눌렀을 때, filedialog를 띄우고
         file_path return
         '''
         filename = filedialog.askopenfilename(
-            initialdir='/', title='파일을 선택하세요', filetypes=(('Excel', '*.xlsx'), ('CSV', '*.csv'), ('Text', '*.txt')))
+            initialdir='/', title='파일을 선택하세요', filetypes=file_types)
         print(filename)
