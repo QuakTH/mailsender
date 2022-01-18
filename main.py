@@ -1,14 +1,16 @@
-from gui import GUI
+# from gui import GUI
+from main_window import MainWindow
+from PyQt5.QtWidgets import QApplication
+import sys
 
 
 def main():
     '''
     main 함수
     '''
-    gui = GUI('메일 자동 처리 프로그램')
-    gui.set_size('600x480')
-    gui.fill_assets()
-    gui.show()
+    app = QApplication([])
+    main_window = MainWindow()
+    sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
