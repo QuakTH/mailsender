@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup
+from PyQt5.QtWidgets import QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, QLineEdit
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
@@ -26,9 +26,39 @@ class MainWindow(QWidget):
         # 메일 보낼 수단 선택 layout
         mail_select_layout = self.create_mail_select()
 
+        # 이메일 비밀번호 입력란 layout
+        email_pass_layout = QHBoxLayout()
+
+        email_label = QLabel('EMAIL :')
+        email_label.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        email_label.setFont(QFont('굴림', 13))
+
+        email_edit = QLineEdit()
+        email_edit.setFixedWidth(200)
+
+        pass_label = QLabel('PASSWORD :')
+        pass_label.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        pass_label.setFont(QFont('굴림', 13))
+
+        pass_edit = QLineEdit()
+        pass_edit.setFixedWidth(170)
+        pass_edit.setEchoMode(QLineEdit.EchoMode.Password)
+
+        email_pass_layout.addStretch(3)
+        email_pass_layout.addWidget(email_label)
+        email_pass_layout.addStretch(1)
+        email_pass_layout.addWidget(email_edit)
+        email_pass_layout.addStretch(2)
+        email_pass_layout.addWidget(pass_label)
+        email_pass_layout.addStretch(1)
+        email_pass_layout.addWidget(pass_edit)
+        email_pass_layout.addStretch(3)
+
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(mail_select_layout)
-        self.vert_layout.addStretch(3)
+        self.vert_layout.addStretch(1)
+        self.vert_layout.addLayout(email_pass_layout)
+        self.vert_layout.addStretch(8)
         self.setLayout(self.vert_layout)
 
         self.center_window()
