@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, QLineEdit, QAction
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
 
-class MainWindow(QWidget):
+class MainWindow(QMainWindow):
     '''
-    메인 UI
+    메인 윈도우
     '''
 
     def __init__(self):
@@ -13,6 +13,40 @@ class MainWindow(QWidget):
         생성자
         '''
         super().__init__()
+        self.main_widget = MainWidget(self)
+        self.init()
+
+    def init(self):
+        '''
+        윈도우 창을 띄우고
+        안에 MainWidget 객체 넣어줌
+        '''
+
+        self.setWindowTitle('메일 자동화 프로그램')
+        self.resize(600, 400)
+
+        # 이메일 목록 및 보낼 이메일 뼈대 파일 불러오는 메뉴바
+        email_action = QAction('이메일 목록 선택', self)
+        mail_body_action = QAction('이메일 내용 선택', self)
+
+        menubar = self.menuBar()
+        menubar.setNativeMenuBar(False)
+        file_select = menubar.addMenu('파일')
+        file_select.addAction(email_action)
+        file_select.addAction(mail_body_action)
+
+        self.setCentralWidget(self.main_widget)
+
+class MainWidget(QWidget):
+    '''
+    메인 UI
+    '''
+
+    def __init__(self, parent):
+        '''
+        생성자
+        '''
+        super().__init__(parent)
         self.vert_layout = QVBoxLayout()
         self.ui_init()
 
@@ -20,8 +54,8 @@ class MainWindow(QWidget):
         '''
         UI를 생성하는 실질적인 메소드
         '''
-        self.setWindowTitle('메일 자동화 프로그램')
-        self.resize(600, 400)
+        # self.setWindowTitle('메일 자동화 프로그램')
+        # self.resize(600, 400)
 
         # 메일 보낼 수단 선택 layout
         mail_select_layout = self.create_mail_select()
