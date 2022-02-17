@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, QLineEdit, QAction
+from PyQt5.QtWidgets import QMainWindow, QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, QLineEdit, QAction, QPushButton, QSizePolicy
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
@@ -37,6 +37,7 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(self.main_widget)
 
+
 class MainWidget(QWidget):
     '''
     메인 UI
@@ -63,10 +64,39 @@ class MainWidget(QWidget):
         # 이메일 비밀번호 입력란 layout
         email_pass_layout = self.create_email_pass()
 
+        # 불러온 이메일 목록 파일명 label
+        email_list_hbox = QHBoxLayout()
+
+        email_list_file = QLabel('선택된 이메일 리스트 파일 없음')
+        email_list_file.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        email_list_file.setFont(QFont('굴림', 13, 90))
+
+        email_list_hbox.addStretch(1)
+        email_list_hbox.addWidget(email_list_file)
+        email_list_hbox.addStretch(1)
+
+        # 이메일 내용 예시 확인
+        email_example_hbox = QHBoxLayout()
+
+        email_example_button = QPushButton('이메일 예시 확인')
+        # email_example_button.setSizePolicy(
+        #     QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        email_example_button.setFont(QFont('굴림', 13))
+        email_example_button.setMaximumWidth(300)
+        email_example_button.setMinimumHeight(40)
+
+        # email_example_hbox.addStretch(1)
+        email_example_hbox.addWidget(email_example_button)
+        # email_example_hbox.addStretch(1)
+
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(mail_select_layout)
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(email_pass_layout)
+        self.vert_layout.addStretch(1)
+        self.vert_layout.addLayout(email_list_hbox)
+        self.vert_layout.addStretch(1)
+        self.vert_layout.addLayout(email_example_hbox)
         self.vert_layout.addStretch(8)
         self.setLayout(self.vert_layout)
 
