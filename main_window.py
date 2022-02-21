@@ -65,29 +65,10 @@ class MainWidget(QWidget):
         email_pass_layout = self.create_email_pass()
 
         # 불러온 이메일 목록 파일명 label
-        email_list_hbox = QHBoxLayout()
-
-        email_list_file = QLabel('선택된 이메일 리스트 파일 없음')
-        email_list_file.setAlignment(Qt.AlignmentFlag.AlignVCenter)
-        email_list_file.setFont(QFont('굴림', 13, 90))
-
-        email_list_hbox.addStretch(1)
-        email_list_hbox.addWidget(email_list_file)
-        email_list_hbox.addStretch(1)
+        email_list_hbox = self.create_email_list()
 
         # 이메일 내용 예시 확인
-        email_example_hbox = QHBoxLayout()
-
-        email_example_button = QPushButton('이메일 예시 확인')
-        # email_example_button.setSizePolicy(
-        #     QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        email_example_button.setFont(QFont('굴림', 13))
-        email_example_button.setMaximumWidth(300)
-        email_example_button.setMinimumHeight(40)
-
-        # email_example_hbox.addStretch(1)
-        email_example_hbox.addWidget(email_example_button)
-        # email_example_hbox.addStretch(1)
+        email_example_hbox = self.create_email_example_button()
 
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(mail_select_layout)
@@ -178,3 +159,36 @@ class MainWidget(QWidget):
         email_pass_layout.addStretch(3)
 
         return email_pass_layout
+
+    def create_email_list(self):
+        '''
+        불러온 email 목록 파일 명을 표시해주는
+        QLabel 및 Layout
+        '''
+        email_list_hbox = QHBoxLayout()
+
+        email_list_file = QLabel('선택된 이메일 리스트 파일 없음')
+        email_list_file.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        email_list_file.setFont(QFont('굴림', 13, 90))
+
+        email_list_hbox.addStretch(1)
+        email_list_hbox.addWidget(email_list_file)
+        email_list_hbox.addStretch(1)
+
+        return email_list_hbox
+
+    def create_email_example_button(self):
+        '''
+        이메일 예시를 보여주는 창을 띄우는 button 및 layout
+        버튼은 초기에 비활성화
+        '''
+        email_example_hbox = QHBoxLayout()
+
+        email_example_button = QPushButton('이메일 예시 확인')
+        email_example_button.setFont(QFont('굴림', 13))
+        email_example_button.setMaximumWidth(300)
+        email_example_button.setMinimumHeight(40)
+
+        email_example_hbox.addWidget(email_example_button)
+
+        return email_example_hbox
