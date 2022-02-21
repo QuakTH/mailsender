@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         '''
 
         self.setWindowTitle('메일 자동화 프로그램')
-        self.resize(600, 400)
+        self.setFixedSize(650, 400)
 
         # 이메일 목록 및 보낼 이메일 뼈대 파일 불러오는 메뉴바
         email_action = QAction('이메일 목록 선택', self)
