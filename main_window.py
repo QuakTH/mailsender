@@ -70,6 +70,18 @@ class MainWidget(QWidget):
         # 이메일 내용 예시 확인
         email_example_hbox = self.create_email_example_button()
 
+        # 보내기 버튼
+        send_button_hbox = QHBoxLayout()
+
+        email_send_button = QPushButton('이메일 보내기')
+        email_send_button.setFont(QFont('굴림', 13,100))
+        email_send_button.setMaximumWidth(250)
+        email_send_button.setMinimumHeight(60)
+        email_send_button.setEnabled(False)
+        email_send_button.setStyleSheet('background-color:#DDDD11')
+
+        send_button_hbox.addWidget(email_send_button)
+
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(mail_select_layout)
         self.vert_layout.addStretch(1)
@@ -78,7 +90,9 @@ class MainWidget(QWidget):
         self.vert_layout.addLayout(email_list_hbox)
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(email_example_hbox)
-        self.vert_layout.addStretch(8)
+        self.vert_layout.addStretch(2)
+        self.vert_layout.addLayout(send_button_hbox)
+        self.vert_layout.addStretch(6)
         self.setLayout(self.vert_layout)
 
         self.center_window()
@@ -188,6 +202,7 @@ class MainWidget(QWidget):
         email_example_button.setFont(QFont('굴림', 13))
         email_example_button.setMaximumWidth(300)
         email_example_button.setMinimumHeight(40)
+        email_example_button.setEnabled(False)
 
         email_example_hbox.addWidget(email_example_button)
 
