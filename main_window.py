@@ -71,17 +71,9 @@ class MainWidget(QWidget):
         email_example_hbox = self.create_email_example_button()
 
         # 보내기 버튼
-        send_button_hbox = QHBoxLayout()
+        send_button_hbox = self.create_send_button()
 
-        email_send_button = QPushButton('이메일 보내기')
-        email_send_button.setFont(QFont('굴림', 13,100))
-        email_send_button.setMaximumWidth(250)
-        email_send_button.setMinimumHeight(60)
-        email_send_button.setEnabled(False)
-        email_send_button.setStyleSheet('background-color:#DDDD11')
-
-        send_button_hbox.addWidget(email_send_button)
-
+        # 수직 레이아웃
         self.vert_layout.addStretch(1)
         self.vert_layout.addLayout(mail_select_layout)
         self.vert_layout.addStretch(1)
@@ -207,3 +199,21 @@ class MainWidget(QWidget):
         email_example_hbox.addWidget(email_example_button)
 
         return email_example_hbox
+
+    def create_send_button(self):
+        '''
+        이메일 보내기 버튼 레이아웃
+        버튼은 초기에 비활성화
+        '''
+        send_button_hbox = QHBoxLayout()
+
+        email_send_button = QPushButton('이메일 보내기')
+        email_send_button.setFont(QFont('굴림', 13, 100))
+        email_send_button.setMaximumWidth(250)
+        email_send_button.setMinimumHeight(60)
+        email_send_button.setEnabled(False)
+        email_send_button.setStyleSheet('background-color:#DDDD11')
+
+        send_button_hbox.addWidget(email_send_button)
+
+        return send_button_hbox
