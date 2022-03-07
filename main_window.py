@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget, QDesktopWidget, QLabel, QVBoxLayout, QHBoxLayout, QRadioButton, QButtonGroup, QLineEdit, QAction, QPushButton, QSizePolicy
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
@@ -27,7 +27,11 @@ class MainWindow(QMainWindow):
 
         # 이메일 목록 및 보낼 이메일 뼈대 파일 불러오는 메뉴바
         email_action = QAction('이메일 목록 선택', self)
+        email_action.triggered.connect(
+            lambda: self.open_file_dialog('이메일 목록 파일 선택', 'EXCEL(*.xlsx);;CSV(*.csv)'))
         mail_body_action = QAction('이메일 내용 선택', self)
+        mail_body_action.triggered.connect(
+            lambda: self.open_file_dialog('이메일 내용 파일 선택', 'TEXT(*.txt);;'))
 
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
@@ -36,6 +40,12 @@ class MainWindow(QMainWindow):
         file_select.addAction(mail_body_action)
 
         self.setCentralWidget(self.main_widget)
+
+    def open_file_dialog(self, action_name, filter):
+        fname = QFileDialog.getOpenFileName(
+            caption=action_name, filter=filter)
+
+        print(fname)
 
 
 class MainWidget(QWidget):
