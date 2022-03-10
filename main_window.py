@@ -29,6 +29,7 @@ class MainWindow(QMainWindow):
         email_action = QAction('이메일 목록 선택', self)
         email_action.triggered.connect(
             lambda: self.open_file_dialog('이메일 목록 파일 선택', 'EXCEL(*.xlsx);;CSV(*.csv)'))
+
         mail_body_action = QAction('이메일 내용 선택', self)
         mail_body_action.triggered.connect(
             lambda: self.open_file_dialog('이메일 내용 파일 선택', 'TEXT(*.txt);;'))
@@ -42,10 +43,19 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.main_widget)
 
     def open_file_dialog(self, action_name, filter):
-        fname = QFileDialog.getOpenFileName(
+        '''
+        파일 dialog를 여는 메소드
+
+        action_name : 파일 dialog 제목
+        filter : 파일 확장자 필터
+        '''
+        fname, _ = QFileDialog.getOpenFileName(
             caption=action_name, filter=filter)
 
-        print(fname)
+        if fname != '':
+            if action_name == '이메일 목록 파일 선택':
+                self.main_widget.set_email_list_label(fname)
+        return None
 
 
 class MainWidget(QWidget):
@@ -183,12 +193,12 @@ class MainWidget(QWidget):
         '''
         email_list_hbox = QHBoxLayout()
 
-        email_list_file = QLabel('선택된 이메일 리스트 파일 없음')
-        email_list_file.setAlignment(Qt.AlignmentFlag.AlignVCenter)
-        email_list_file.setFont(QFont('굴림', 13, 90))
+        self.email_list_file = QLabel('선택된 이메일 리스트 파일 없음')
+        self.email_list_file.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self.email_list_file.setFont(QFont('굴림', 13, 90))
 
         email_list_hbox.addStretch(1)
-        email_list_hbox.addWidget(email_list_file)
+        email_list_hbox.addWidget(self.email_list_file)
         email_list_hbox.addStretch(1)
 
         return email_list_hbox
@@ -227,3 +237,13 @@ class MainWidget(QWidget):
         send_button_hbox.addWidget(email_send_button)
 
         return send_button_hbox
+
+    def set_email_list_label(self, file_path):
+        '''
+        이메일 파일 path를 받으면, 해당 파일명을 보여주게끔 label text 변경
+
+        file_path : 이메일 파일 path
+        '''
+        file_name = file_path.split('/')[-1]
+
+        self.email_list_file.setText(file_name)
