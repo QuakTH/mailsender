@@ -13,6 +13,10 @@ class MainWindow(QMainWindow):
         생성자
         '''
         super().__init__()
+        self.email_list_set = False
+        self.email_text_set = False
+        self.email_list_file = ''
+        self.email_text_file = ''
         self.main_widget = MainWidget(self)
         self.init()
 
@@ -49,12 +53,28 @@ class MainWindow(QMainWindow):
         action_name : 파일 dialog 제목
         filter : 파일 확장자 필터
         '''
+        # 이메일 리스트를 먼저 선택하게끔
+        if action_name == '이메일 내용 파일 선택' and not self.email_list_set:
+            QMessageBox.warning(self, '주의', '이메일 리스트를 먼저 선택해주세요')
+            return None
+
         fname, _ = QFileDialog.getOpenFileName(
             caption=action_name, filter=filter)
 
         if fname != '':
             if action_name == '이메일 목록 파일 선택':
                 self.main_widget.set_email_list_label(fname)
+                self.email_list_file = fname
+                self.email_list_set = True
+            elif action_name == '이메일 내용 파일 선택':
+                self.email_text_file = fname
+                self.email_text_set = True
+
+        # 이메일 리스트 및 내용을 받은 경우에 수행
+        if self.email_list_set and self.email_text_set:
+            QMessageBox.about(self, '알림', '이메일 보내기 준비')
+
+        
         return None
 
 
