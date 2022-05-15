@@ -69,10 +69,19 @@ class MainWindow(QMainWindow):
             elif action_name == '이메일 내용 파일 선택':
                 self.email_text_file = fname
                 self.email_text_set = True
+        else:
+            if action_name == '이메일 목록 파일 선택':
+                self.main_widget.set_email_list_label('선택된 이메일 리스트 파일 없음')
+                self.email_list_file = None
+                self.email_list_set = False
+            else:
+                self.email_text_file = None
+                self.email_text_set = False
 
         # 이메일 리스트 및 내용을 받은 경우에 수행
         if self.email_list_set and self.email_text_set:
             QMessageBox.about(self, '알림', '이메일 보내기 준비')
+
 
         
         return None
@@ -230,13 +239,13 @@ class MainWidget(QWidget):
         '''
         email_example_hbox = QHBoxLayout()
 
-        email_example_button = QPushButton('이메일 예시 확인')
-        email_example_button.setFont(QFont('굴림', 13))
-        email_example_button.setMaximumWidth(300)
-        email_example_button.setMinimumHeight(40)
-        email_example_button.setEnabled(False)
+        self.email_example_button = QPushButton('이메일 예시 확인')
+        self.email_example_button.setFont(QFont('굴림', 13))
+        self.email_example_button.setMaximumWidth(300)
+        self.email_example_button.setMinimumHeight(40)
+        self.email_example_button.setEnabled(False)
 
-        email_example_hbox.addWidget(email_example_button)
+        email_example_hbox.addWidget(self.email_example_button)
 
         return email_example_hbox
 
