@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
+from PyQt5 import QtCore
 
 
 class MainWindow(QMainWindow):
@@ -99,6 +100,7 @@ class MainWidget(QWidget):
         '''
         super().__init__(parent)
         self.vert_layout = QVBoxLayout()
+        self.email_example_dialog = EmailExampleWindow()  # 이메일 예시 Dialog
         self.ui_init()
 
     def ui_init(self):
@@ -242,6 +244,8 @@ class MainWidget(QWidget):
 
         self.email_example_button = QPushButton('이메일 예시 확인')
         self.email_example_button.setFont(QFont('굴림', 13))
+        self.email_example_button.clicked.connect(
+            self.email_example_click_event)
         self.email_example_button.setMaximumWidth(300)
         self.email_example_button.setMinimumHeight(40)
         self.email_example_button.setEnabled(False)
@@ -256,8 +260,7 @@ class MainWidget(QWidget):
         이메일 리스트와 이메일 내용을 통해 이메일 예시를
         하나 보여주는 window를 여는 event
         '''
-        email_example_dialog=EmailExampleWindow()
-        email_example_dialog.show()
+        self.email_example_dialog.show()
 
     def create_send_button(self):
         '''
@@ -287,6 +290,7 @@ class MainWidget(QWidget):
 
         self.email_list_file.setText(file_name)
 
+
 class EmailExampleWindow(QMainWindow):
     def __init__(self):
         '''
@@ -297,6 +301,8 @@ class EmailExampleWindow(QMainWindow):
 
         self.setWindowTitle('이메일 예시')
         self.setFixedSize(300, 200)
+
+        self.setWindowFlag(Qt.WindowType.WindowMinimizeButtonHint, False)
 
         frame_geom = self.frameGeometry()
         center = QDesktopWidget().availableGeometry().center()
