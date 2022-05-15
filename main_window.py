@@ -81,9 +81,10 @@ class MainWindow(QMainWindow):
         # 이메일 리스트 및 내용을 받은 경우에 수행
         if self.email_list_set and self.email_text_set:
             QMessageBox.about(self, '알림', '이메일 보내기 준비')
+            self.main_widget.email_example_button.setEnabled(True)
+        else:
+            self.main_widget.email_example_button.setEnabled(False)
 
-
-        
         return None
 
 
@@ -249,6 +250,15 @@ class MainWidget(QWidget):
 
         return email_example_hbox
 
+    def email_example_click_event(self):
+        '''
+        이메일 예시 button을 클릭할 때,
+        이메일 리스트와 이메일 내용을 통해 이메일 예시를
+        하나 보여주는 window를 여는 event
+        '''
+        email_example_dialog=EmailExampleWindow()
+        email_example_dialog.show()
+
     def create_send_button(self):
         '''
         이메일 보내기 버튼 레이아웃
@@ -276,3 +286,19 @@ class MainWidget(QWidget):
         file_name = file_path.split('/')[-1]
 
         self.email_list_file.setText(file_name)
+
+class EmailExampleWindow(QMainWindow):
+    def __init__(self):
+        '''
+        생성자
+        '''
+        # 윈도우를 만들고 중앙배치
+        super().__init__()
+
+        self.setWindowTitle('이메일 예시')
+        self.setFixedSize(300, 200)
+
+        frame_geom = self.frameGeometry()
+        center = QDesktopWidget().availableGeometry().center()
+        frame_geom.moveCenter(center)
+        self.move(frame_geom.topLeft())
