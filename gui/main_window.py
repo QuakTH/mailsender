@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         # 이메일 목록 및 보낼 이메일 뼈대 파일 불러오는 메뉴바
         email_action = QAction('이메일 목록 선택', self)
         email_action.triggered.connect(
-            lambda: self.open_file_dialog('이메일 목록 파일 선택', 'EXCEL(*.xlsx);;CSV(*.csv)'))
+            lambda: self.open_file_dialog('이메일 목록 파일 선택', 'EXCEL,CSV(*.xlsx *.csv)'))
 
         mail_body_action = QAction('이메일 내용 선택', self)
         mail_body_action.triggered.connect(
@@ -80,8 +80,8 @@ class MainWindow(QMainWindow):
         # 이메일 리스트 및 내용을 받은 경우에 수행
         if self.email_list_set and self.email_text_set:
             QMessageBox.about(self, '알림', '이메일 보내기 준비')
-            self.main_widget.email_example_button.setEnabled(True)
+            self.main_widget.send_button_layout.email_send_button.setEnabled(True)
         else:
-            self.main_widget.email_example_button.setEnabled(False)
+            self.main_widget.send_button_layout.email_send_button.setEnabled(False)
 
         return None
