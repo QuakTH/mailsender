@@ -21,6 +21,10 @@
 
 ### 디자인
 
-![alt text](images/UI.png)
+![UI 디자인](images/UI.png)
 
 ### 실제 앱 결과
+
+## 서비스 관계도
+
+![서비스 관계도](images/서비스%20관계도.png)
