@@ -4,3 +4,5 @@ mail_body.txt
 email_list.*
 .venv
 *.drawio
+*.gui
+*.ui
