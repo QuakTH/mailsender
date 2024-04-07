@@ -12,6 +12,7 @@ def main():
     app = QApplication([])
     main_window = QMainWindow()
     main_window.setFixedSize(QSize(650, 490))
+    main_window.setWindowTitle("Auto Email Sender")
 
     main_widget = MainWidget()
     main_widget.setupUi(main_window)
