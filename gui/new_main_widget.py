@@ -1,7 +1,16 @@
+import os
+from typing import Optional
 from PyQt5 import QtCore, QtWidgets
+
+from exceptions import CustomException
+from file_process.template_process import TemplateProcess
+from utils import run_log_exception
 
 
 class MainWidget:
+    def __init__(self) -> None:
+        self.__template_process = TemplateProcess(self)
+
     def setupUi(self, main_window: QtWidgets.QMainWindow) -> None:
         main_window.setObjectName("main_window")
 
@@ -79,15 +88,15 @@ class MainWidget:
         self.load_template_button.setGeometry(QtCore.QRect(340, 190, 141, 41))
         self.load_template_button.setObjectName("load_template_button")
         self.load_template_button.setText("Load Template")
-        self.load_template_button.clicked.connect(self.load_templates_button_clicked)
+        self.load_template_button.clicked.connect(lambda :self.load_templates_button_clicked())
 
         # load candidates button
         self.load_candidates_button = QtWidgets.QPushButton(main_window)
         self.load_candidates_button.setGeometry(QtCore.QRect(480, 190, 141, 41))
         self.load_candidates_button.setObjectName("load_candidates_button")
         self.load_candidates_button.setText("Load Candidates")
-        self.load_candidates_button.clicked.connect(self.load_candidates_button_clicked)
-        
+        self.load_candidates_button.clicked.connect(lambda :self.load_candidates_button_clicked())
+
         # send email button
         self.send_email_button = QtWidgets.QPushButton(main_window)
         self.send_email_button.setGeometry(QtCore.QRect(410, 250, 141, 41))
@@ -114,11 +123,26 @@ class MainWidget:
 """,
         )
 
+    @run_log_exception('log_outputs')
     def load_templates_button_clicked(self) -> None:
         """
         Load Templates Button Clicked
         """
-        self.email_example.append("load_templates_button_clicked")
+        file_path = self.get_file_path("이메일 내용 파일 선택", "TEXT(*.txt);;")
+        if not file_path:
+            return
+
+        try:
+            self.log_outputs.append(
+                f"Load Template file : {os.path.basename(file_path)}"
+            )
+            self.__template_process.set_file_path(file_path)
+            self.__template_process.extract_place_holders()
+            self.__template_process.set_email_example()
+        except CustomException as e:
+            self.log_outputs.append(e.msg)
+        except Exception:
+            self.log_outputs.append("Something Went Wrong.. Try to restart the app.")
 
     def load_candidates_button_clicked(self) -> None:
         """
@@ -131,3 +155,20 @@ class MainWidget:
         Send Email Button Clicked
         """
         self.log_outputs.append("send_email_button_clicked")
+
+    @staticmethod
+    def get_file_path(action_name, filter) -> Optional[str | os.PathLike]:
+        """
+        Open file dialog and get file path from dialog.
+
+        action_name : File dialog title.
+        filter : File extension filter.
+        :return: File path of the file. if file is selected.
+        """
+        fname, _ = QtWidgets.QFileDialog.getOpenFileName(
+            caption=action_name, filter=filter
+        )
+
+        if fname:
+            return fname
+        return None
