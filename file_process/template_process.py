@@ -37,6 +37,11 @@ class TemplateProcess:
             with open(self.__file_path, "rt") as f:
                 self.__place_holders = set(re.findall(r"\${{(\w+)}}", f.read()))
 
+    @property
+    def place_holders(self):
+        """Return the private __place_holder variable."""
+        return self.__place_holders
+
     def set_email_example(self):
         """Set the email_example output.
         1. If the candidate files are not loaded, only show the raw text.
