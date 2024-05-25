@@ -2,6 +2,7 @@ import os
 from typing import Optional
 from PyQt5 import QtCore, QtWidgets
 
+from file_process.candiate_process import CandidateProcess
 from file_process.template_process import TemplateProcess
 from utils import run_log_exception
 
@@ -9,6 +10,7 @@ from utils import run_log_exception
 class MainWidget:
     def __init__(self) -> None:
         self.template_process = TemplateProcess(self)
+        self.candidate_process = CandidateProcess(self)
 
     def setupUi(self, main_window: QtWidgets.QMainWindow) -> None:
         main_window.setObjectName("main_window")
@@ -121,7 +123,7 @@ class MainWidget:
 1. 보내고자 하는 이메일 사이트를 선택한다. (Naver, Daum, Google)
 2. 해당 사이트의 계정(이메일 주소 포함)과 비밀번호를 입력한다.
 3. Load Templates로 이메일 템플릿을 불러온다. (대체하고자 하는 값을 ${} 로 감싼다)
-4. Load Candidates로 이메일 후보 및 대체 값들을 채운 CSV, EXCEL 파일을 불러온다.
+4. Load Candidates로 이메일 후보 및 대체 값들을 채운 CSV, EXCEL 파일을 불러온다.(email 정보는 필수!)
 5. 이메일 예시를 확인 한 후 Send Email 클릭한다.
 """,
         )
@@ -134,12 +136,13 @@ class MainWidget:
         file_path = self.get_file_path("이메일 내용 파일 선택", "TEXT(*.txt);;")
         if not file_path:
             return
-        
+
         self.template_process.set_file_path(file_path)
         self.template_process.extract_place_holders()
         self.template_process.set_email_example()
         self.log_outputs.append(f"Load Template file : {os.path.basename(file_path)}")
 
+    @run_log_exception("log_outputs")
     def load_candidates_button_clicked(self) -> None:
         """
         Load Candidates Button Clicked
@@ -149,6 +152,10 @@ class MainWidget:
         )
         if not file_path:
             return
+        
+        self.candidate_process.set_file_path(file_path)
+        self.candidate_process.load_dataframe()
+        self.log_outputs.append(f"Load Candidate file : {os.path.basename(file_path)}")
 
     def send_email_button_clicked(self) -> None:
         """

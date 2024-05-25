@@ -6,3 +6,5 @@ email_list.*
 *.drawio
 *.gui
 *.ui
+*.csv
+*.xlsx
