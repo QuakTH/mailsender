@@ -147,15 +147,21 @@ class MainWidget:
         """
         Load Candidates Button Clicked
         """
+        if not self.template_process.file_path_set:
+            self.log_outputs.append('Load the template files first.')
+            return
+
         file_path = self.get_file_path(
             "이메일 목록 파일 선택", "EXCEL,CSV(*.xlsx *.csv)"
         )
         if not file_path:
             return
-        
+
         self.candidate_process.set_file_path(file_path)
         self.candidate_process.load_dataframe()
         self.log_outputs.append(f"Load Candidate file : {os.path.basename(file_path)}")
+
+        self.template_process.set_email_example()
 
     def send_email_button_clicked(self) -> None:
         """

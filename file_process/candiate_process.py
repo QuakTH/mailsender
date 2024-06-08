@@ -43,6 +43,9 @@ class CandidateProcess:
         else:
             self.__candidate_df = pd.read_excel(self.__file_path)
 
+        if len(self.__candidate_df) == 0:
+            raise CustomException("Candidate data is empty.")
+
         candidate_col_set = set(self.__candidate_df.columns)
 
         # Check columns
@@ -51,10 +54,10 @@ class CandidateProcess:
             raise CustomException(
                 f"Candidate files must contain `{', '.join(check_mandatory_key_set)}` columns."
             )
-        
+
         candidate_col_set -= self.MANDATORY_KEYS
         check_template_place_holders = (
-            candidate_col_set - self.main_widget.template_process.place_holders
+                candidate_col_set - self.main_widget.template_process.place_holders
         )
         if check_template_place_holders:
             raise CustomException(
@@ -62,7 +65,7 @@ class CandidateProcess:
             )
 
         check_candidate_columns = (
-            self.main_widget.template_process.place_holders - candidate_col_set
+                self.main_widget.template_process.place_holders - candidate_col_set
         )
         if check_candidate_columns:
             raise CustomException(

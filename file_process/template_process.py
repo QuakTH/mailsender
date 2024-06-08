@@ -1,3 +1,4 @@
+import json
 import os
 import re
 from typing import TYPE_CHECKING, Optional, Set
@@ -45,8 +46,18 @@ class TemplateProcess:
     def set_email_example(self):
         """Set the email_example output.
         1. If the candidate files are not loaded, only show the raw text.
-        2. If the candidate files are set. And
+        2. If the candidate files are set. And there are candidate rows, the placeholders will be
+           changed to the matching candidate value.
         """
         if self.__file_path:
             with open(self.__file_path, "rt") as f:
-                self.main_widget.email_example.setText(f.read())
+                text = f.read()
+
+            if self.main_widget.candidate_process.candidate_df is not None:
+                json_format = self.main_widget.candidate_process.candidate_df.iloc[0].to_json(force_ascii=False)
+
+                for key, value in json.loads(json_format).items():
+                    if key not in self.main_widget.candidate_process.MANDATORY_KEYS:
+                        text = text.replace(f'${{{{{key}}}}}', value)
+
+            self.main_widget.email_example.setText(text)
