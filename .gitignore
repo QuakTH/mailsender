@@ -8,3 +8,4 @@ email_list.*
 *.ui
 *.csv
 *.xlsx
+.idea/*
