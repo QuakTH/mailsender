@@ -2,6 +2,7 @@ import os
 from typing import Optional
 from PyQt5 import QtCore, QtWidgets
 
+from email_process.email_send_process import EmailSendProcess
 from file_process.candiate_process import CandidateProcess
 from file_process.template_process import TemplateProcess
 from utils import run_log_exception
@@ -11,6 +12,7 @@ class MainWidget:
     def __init__(self) -> None:
         self.template_process = TemplateProcess(self)
         self.candidate_process = CandidateProcess(self)
+        # self.progress_bar_thread = ProgressBarThread()
 
     def setupUi(self, main_window: QtWidgets.QMainWindow) -> None:
         main_window.setObjectName("main_window")
@@ -27,8 +29,9 @@ class MainWidget:
         # progress bar
         self.progress_bar = QtWidgets.QProgressBar(main_window)
         self.progress_bar.setGeometry(QtCore.QRect(20, 430, 251, 23))
-        self.progress_bar.setProperty("value", 0)
+        self.progress_bar.setValue(0)
         self.progress_bar.setObjectName("progress_bar")
+        # self.progress_bar_thread.progress.connect(self.progress_bar.setValue)
 
         # log text output
         self.log_outputs = QtWidgets.QTextBrowser(main_window)
@@ -106,7 +109,7 @@ class MainWidget:
         self.send_email_button.setGeometry(QtCore.QRect(410, 250, 141, 41))
         self.send_email_button.setObjectName("send_email_button")
         self.send_email_button.setText("Send Email")
-        self.send_email_button.clicked.connect(self.send_email_button_clicked)
+        self.send_email_button.clicked.connect(lambda: self.send_email_button_clicked())
 
         QtCore.QMetaObject.connectSlotsByName(main_window)
 
@@ -162,11 +165,19 @@ class MainWidget:
 
         self.template_process.set_email_example()
 
+    @run_log_exception("log_outputs")
     def send_email_button_clicked(self) -> None:
         """
         Send Email Button Clicked
         """
-        self.log_outputs.append("send_email_button_clicked")
+        email_type = self.email_site_select.currentText()
+        email = self.email_address_input.text()
+        password = self.password_input.text()
+
+        EmailSendProcess.send_email(email_type, email, password, self.template_process.template,
+                                    self.candidate_process.candidate_df, self.progress_bar)
+
+        self.log_outputs.append("Email send completed.")
 
     @staticmethod
     def get_file_path(action_name, filter) -> Optional[str | os.PathLike]:

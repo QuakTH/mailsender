@@ -16,6 +16,7 @@ def main():
 
     main_widget = MainWidget()
     main_widget.setupUi(main_window)
+    # main_widget.progress_bar_thread.start()
 
     main_window.show()
     sys.exit(app.exec_())
