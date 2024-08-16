@@ -61,3 +61,12 @@ class TemplateProcess:
                         text = text.replace(f'${{{{{key}}}}}', value)
 
             self.main_widget.email_example.setText(text)
+
+    @property
+    def template(self) -> str:
+        """Return the template string.
+
+        :return: Template string.
+        """
+        with open(self.__file_path, "rt") as f:
+            return f.read()
