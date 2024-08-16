@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class CandidateProcess:
-    MANDATORY_KEYS = {"email"}
+    MANDATORY_KEYS = {"email", "title"}
 
     def __init__(self, main_widget: "MainWidget"):
         self.main_widget = main_widget
