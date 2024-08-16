@@ -41,7 +41,6 @@ class MainWidget:
         self.email_site_select.setObjectName("email_site_select")
         self.email_site_select.addItem("Naver (@naver.com)")
         self.email_site_select.addItem("Google (@google.com)")
-        self.email_site_select.addItem("Daum (@daum.net)")
 
         # help button
         self.help_button = QtWidgets.QPushButton(main_window)
